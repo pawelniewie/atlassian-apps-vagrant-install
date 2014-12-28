@@ -12,15 +12,20 @@ Vagrant.configure("2") do |config|
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.hostname = "atlas"
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network :private_network, ip: "192.168.33.12"
-
+  config.vm.network :forwarded_port, guest: 8080, host: 8080
+  config.vm.network :forwarded_port, guest: 8090, host: 8090
+  config.vm.network :forwarded_port, guest: 7990, host: 7990
+  config.vm.network :forwarded_port, guest: 8085, host: 8085
 
   config.vm.provider :virtualbox do |vb|
   # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "4096"]
+    vb.customize ["modifyvm", :id, 
+      "--name", "atlas",
+      "--memory", "4096",
+      # Enable DNS behind NAT
+      "--natdnshostresolver1", "on"]
   end
 
   config.vm.provision :puppet, :module_path => "modules" do |puppet|

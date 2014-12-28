@@ -51,7 +51,7 @@ class bamboo {
   include common_dependencies
 
   $bamboo_home = "/vagrant/bamboo-home"
-  $bamboo_version = "4.4.5"
+  $bamboo_version = "5.7.2"
 
   exec {
     "download_bamboo":
@@ -78,7 +78,7 @@ class bamboo {
   exec {
     "start_bamboo_in_background":
     environment => "BAMBOO_HOME=${bamboo_home}",
-    command => "/vagrant/atlassian-bamboo-${bamboo_version}/bamboo.sh start &",
+    command => "/vagrant/atlassian-bamboo-${bamboo_version}/bin/start-bamboo.sh &",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
@@ -94,7 +94,7 @@ class confluence {
   include common_dependencies
 
   $confluence_home = "/vagrant/confluence-home"
-  $confluence_version = "5.1"
+  $confluence_version = "5.6.5"
 
   exec {
     "download_confluence":
@@ -137,7 +137,7 @@ class jira {
   include common_dependencies
 
   $jira_home = "/vagrant/jira-home"
-  $jira_version = "5.2.10"
+  $jira_version = "6.3.12"
 
   exec {
     "download_jira":
@@ -179,7 +179,7 @@ class jira {
 class stash {
   include common_dependencies
 
-  $stash_version = "2.3.1"
+  $stash_version = "3.5.1"
   $stash_home = "/vagrant/stash-home"
 
   exec {
@@ -207,7 +207,7 @@ class stash {
   exec {
     "start_stash_in_background":
     environment => "STASH_HOME=${stash_home}",
-    command => "/vagrant/atlassian-stash-${stash_version}/bin/start-stash.sh &",
+    command => "/vagrant/atlassian-stash-${stash_version}/bin/startup.sh &",
     cwd => "/vagrant",
     user => "vagrant",
     path    => "/usr/bin/:/bin/",
