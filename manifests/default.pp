@@ -10,6 +10,16 @@ class common_dependencies {
   include apt
   apt::ppa { "ppa:webupd8team/java": }
   
+  apt::source { "atlassian-plugin-sdk":
+    location        => "https://sdkrepo.atlassian.com/debian/",
+    release         => "stable",
+    repos           => " contrib",
+    include_src     => false,
+    required_packages=> "apt-transport-https",
+    key             => 'B07804338C015B73',
+    key_server      => 'keyserver.ubuntu.com'
+  }
+
   exec { 'apt-get update':
     command => '/usr/bin/apt-get update',
     before => Apt::Ppa["ppa:webupd8team/java"],
@@ -30,6 +40,11 @@ class common_dependencies {
   }
 
   package { ["oracle-java7-installer"]:
+    ensure => present,
+    require => Exec["apt-get update 2"],
+  }
+
+  package { ["atlassian-plugin-sdk"]:
     ensure => present,
     require => Exec["apt-get update 2"],
   }
